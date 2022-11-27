@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Component } from "react/cjs/react.production.min";
 import ErrorMessage from "../errorMessage/ErrorMessage";
 
 const ErrorBoundary = (props) => {

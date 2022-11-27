@@ -1,4 +1,4 @@
-import { useState, Component, Fragment, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import useMarvelService from '../../services/MarvelServices';
@@ -7,6 +7,7 @@ import ErrorMessage from '../errorMessage/ErrorMessage';
 import Skeleton from '../skeleton/Skeleton';
 
 import './charInfo.scss';
+import { NavLink } from 'react-router-dom';
 
 
  const CharInfo = (props) => {
@@ -15,14 +16,9 @@ import './charInfo.scss';
 
     const { loading, error, getCharacter, clearError} = useMarvelService();
 
-    useEffect(() => {
-        updateChar();
-    }, []);
 
     useEffect(() => {
-
         updateChar();
-
     }, [props.charId])
 
 
@@ -62,7 +58,8 @@ import './charInfo.scss';
 
 const View = ({char}) => {
     const {name, description, thumbnail, homepage, wiki, comics} = char;
-    const imgClassName = thumbnail != "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg" ? "" : "dont"
+    const imgClassName = thumbnail != "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg" ? "" : "dont";
+    
     return (
         <>
             <div className="char__basics">
@@ -70,10 +67,10 @@ const View = ({char}) => {
                     <div>
                         <div className="char__info-name">{name}</div>
                         <div className="char__btns">
-                            <a href={homepage} className="button button__main">
+                            <a target="_blank" href={homepage} className="button button__main" >
                                 <div className="inner">homepage</div>
                             </a>
-                            <a href={wiki} className="button button__secondary">
+                            <a target="_blank" href={wiki} className="button button__secondary">
                                 <div className="inner">Wiki</div>
                             </a>
                         </div>
@@ -94,7 +91,9 @@ const View = ({char}) => {
                             }
                             return (
                                 <li key ={i} className="char__comics-item">
-                                    {item.name}
+                                    <NavLink target='_blank' to={`/comics/${item.resourceURI.match(/\d*$/)[0]}`}>
+                                        {item.name}
+                                    </NavLink>
                                 </li>
                             )
                         })
